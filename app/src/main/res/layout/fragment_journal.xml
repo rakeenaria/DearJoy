@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Journal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F7F4F2">
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bg_journal" />
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="Back button"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            app:layout_constraintBottom_toBottomOf="@+id/tJournal"
+            app:layout_constraintEnd_toStartOf="@+id/tJournal"
+            app:layout_constraintTop_toTopOf="@+id/tJournal" />
+
+        <TextView
+            android:id="@+id/tJournal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="16dp"
+            android:text="Journal"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tMood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="How are you feeling today?"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tJournal" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvMood"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tMood">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMood"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <ImageButton
+                    android:id="@+id/mood1"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="#00F4F4F4"
+                    android:contentDescription="Terrible"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/mood1" />
+
+                <ImageButton
+                    android:id="@+id/mood2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="Bad"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toStartOf="@+id/mood3"
+                    app:layout_constraintStart_toEndOf="@+id/mood1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/mood2" />
+
+                <ImageButton
+                    android:id="@+id/mood3"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="Neutral"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/mood3" />
+
+                <ImageButton
+                    android:id="@+id/mood4"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="Good"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toStartOf="@+id/mood5"
+                    app:layout_constraintStart_toEndOf="@+id/mood3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/mood4" />
+
+                <ImageButton
+                    android:id="@+id/mood5"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="Amazing"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/mood5" />
+
+                <TextView
+                    android:id="@+id/tvMood1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Terrible"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mood1" />
+
+                <TextView
+                    android:id="@+id/tvMood2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Bad"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tvMood3"
+                    app:layout_constraintStart_toEndOf="@+id/tvMood1"
+                    app:layout_constraintTop_toBottomOf="@+id/mood2" />
+
+                <TextView
+                    android:id="@+id/tvMood3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Neutral"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mood3" />
+
+                <TextView
+                    android:id="@+id/tvMood4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Good"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tvMood5"
+                    app:layout_constraintStart_toEndOf="@+id/tvMood3"
+                    app:layout_constraintTop_toBottomOf="@+id/mood4" />
+
+                <TextView
+                    android:id="@+id/tvMood5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="1dp"
+                    android:text="Amazing"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/mood5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvJournal"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvMood">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/etJornal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00FFFAFA"
+                    android:ems="10"
+                    android:gravity="start"
+                    android:hint="Write your story here..."
+                    android:inputType="textMultiLine"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/bSubmit"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/green"
+            android:text="Submit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvJournal" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

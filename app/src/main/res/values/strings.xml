@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">DearJoy</string>
+    <string name="shop">Shop</string>
+    <string name="watch_ad">Watch Ad</string>
+    <string name="price_21k">Rp21.000,00</string>
+    <string name="price_56k">Rp56.000,00</string>
+    <string name="price_118k">Rp118.000,00</string>
+    <string name="price_199k">Rp199.000,00</string>
+    <string name="shop_title">Shop</string>
+    <string name="default_gems_count">10</string>
+    <string name="gems_icon_desc">Icon untuk Gems</string>
+    <string name="costume_items">Costume</string>
+    <string name="gem_items">Gems</string>
+    <string name="costume_image_desc">Costume Image</string>
+    <string name="avatars">Avatars</string>
+    <string name="gems">Gems</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

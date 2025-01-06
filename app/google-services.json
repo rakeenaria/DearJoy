@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "666318735691",
+    "firebase_url": "https://dearjoy-60386-default-rtdb.firebaseio.com",
+    "project_id": "dearjoy-60386",
+    "storage_bucket": "dearjoy-60386.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666318735691:android:4b52def470bfaf3bd340ce",
+        "android_client_info": {
+          "package_name": "com.example.dearjoy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr_CkwloomFyFI_IeBM9ysomlUtZCnows"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
