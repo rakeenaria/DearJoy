@@ -1,6 +1,7 @@
 package com.example.dearjoy
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,24 +11,27 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.shop.CostumeFragment
 import com.example.shop.GemsFragment
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Shop.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Shop : Fragment() {
 
-    private var gemsCount = 10
+    private var gemsCount = 0 // Default gems count
     private lateinit var gemsTextView: TextView
+
+    private lateinit var database: DatabaseReference
+    private lateinit var userRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize Firebase
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        if (currentUserId != null) {
+            database = FirebaseDatabase.getInstance().reference
+            userRef = database.child("users").child(currentUserId)
+        }
     }
 
     override fun onCreateView(
@@ -37,17 +41,19 @@ class Shop : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_shop, container, false)
 
-        // Inisialisasi TextView untuk jumlah Gems
+        // Initialize TextView for Gems
         gemsTextView = view.findViewById(R.id.gemsText)
-        updateGemsDisplay()
 
-        // Inisialisasi TabLayout
+        // Fetch gems from Firebase and display
+        fetchGems()
+
+        // Initialize TabLayout
         val tabLayout: TabLayout = view.findViewById(R.id.tabLayout)
 
-        // Muat halaman awal (Costume)
+        // Load initial fragment (Costume)
         loadFragment(CostumeFragment())
 
-        // Listener untuk navigasi antar-tab
+        // Listener for tab navigation
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.text) {
@@ -59,6 +65,7 @@ class Shop : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+
         return view
     }
 
@@ -68,6 +75,16 @@ class Shop : Fragment() {
         transaction.commit()
     }
 
+    private fun fetchGems() {
+        // Fetch gems from Firebase
+        userRef.child("gems").get().addOnSuccessListener { snapshot ->
+            gemsCount = snapshot.value?.toString()?.toIntOrNull() ?: 0
+            updateGemsDisplay()
+        }.addOnFailureListener { error ->
+            Log.e("Shop", "Failed to fetch gems: ${error.message}")
+        }
+    }
+
     private fun updateGemsDisplay() {
         gemsTextView.text = gemsCount.toString()
     }
@@ -75,31 +92,26 @@ class Shop : Fragment() {
     fun addGems(amount: Int) {
         gemsCount += amount
         updateGemsDisplay()
+
+        // Update gems in Firebase
+        userRef.child("gems").setValue(gemsCount)
     }
 
     fun deductGems(amount: Int) {
         if (gemsCount >= amount) {
             gemsCount -= amount
             updateGemsDisplay()
+
+            // Update gems in Firebase
+            userRef.child("gems").setValue(gemsCount)
         }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Shop.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             Shop().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

@@ -1,5 +1,6 @@
 package com.example.dearjoy
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ class JournalAdapter(
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val item = journalList[position]
+        Log.d("JournalAdapter", "Binding data for position: $position, mood: ${item.dataMood}")
         holder.textViewMood.text = "Your Feeling: ${convertMoodToText(item.dataMood)}"
         holder.imageMood.setImageResource(convertMoodToImage(item.dataMood))
         holder.textViewStory.text = item.content

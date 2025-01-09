@@ -2,6 +2,7 @@ package com.example.dearjoy
 
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,8 @@ import com.example.dearjoy.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class Home : Fragment() {
     // Firebase
@@ -70,6 +74,7 @@ class Home : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,6 +87,8 @@ class Home : Fragment() {
         val selectedAvatarImageView = binding.selectedAvatar
         val progressBar = binding.progressBar
         recyclerView = binding.recyclerView
+        val streakCount = view.findViewById<TextView>(R.id.tvStreak)
+        val streakIcon = view.findViewById<ImageView>(R.id.streak)
 
         // Initialize Preferences
         preferences = Preferences(requireContext())
@@ -95,6 +102,7 @@ class Home : Fragment() {
                 if (dataSnapshot.exists()) {
                     val username = dataSnapshot.child("username").value.toString().trim()
                     etWelcome.text = "Hi, $username"
+                    fetchGems()
                 }
             }
 
@@ -110,6 +118,31 @@ class Home : Fragment() {
                             selectedAvatarImageView.setImageResource(resId)
                         }
                     }
+                }
+            }
+
+            //Fetch streak data
+            userRef.get().addOnSuccessListener { dataSnapshot ->
+                if(dataSnapshot.exists()){
+                    val streak = dataSnapshot.child("streak").value?.toString()?.toIntOrNull() ?: 0
+                    val lastEntryDate = dataSnapshot.child("lastEntryDate").value?.toString()
+                    val today = LocalDate.now()
+
+                    // Check streak status
+                    if (lastEntryDate != null) {
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        val lastDate = LocalDate.parse(lastEntryDate, formatter)
+
+                        if (lastDate == today) {
+                            streakIcon.setImageResource(R.drawable.streak_active) // Streak aktif
+                        } else {
+                            streakIcon.setImageResource(R.drawable.streak) // Streak tidak aktif
+                        }
+                    } else {
+                        streakIcon.setImageResource(R.drawable.streak) // Jika tidak ada lastEntryDate
+                    }
+
+                    streakCount.text = streak.toString()
                 }
             }
         }
@@ -164,6 +197,14 @@ class Home : Fragment() {
         }
     }
 
+    private fun fetchGems() {
+        userRef.child("gems").get().addOnSuccessListener { snapshot ->
+            val gems = snapshot.value?.toString()?.toIntOrNull() ?: 0
+            binding.gemsText.text = gems.toString() // Gunakan binding untuk akses gemsText
+        }.addOnFailureListener { error ->
+            Log.e("Home", "Failed to fetch gems: ${error.message}")
+        }
+    }
 
     private fun awardGems() {
         gemsEarned += 10

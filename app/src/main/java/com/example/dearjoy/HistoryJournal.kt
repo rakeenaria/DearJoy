@@ -57,14 +57,17 @@ class HistoryJournal : Fragment() {
                     if (snapshot.exists()) {
                         journalList.clear()
                         for (journalSnapshot in snapshot.children) {
+                            val journalId = journalSnapshot.key
                             val journal = journalSnapshot.getValue(JournalItem::class.java)
+                            journal?.journalID = journalId
                             if (journal != null && journal.userID == getCurrentUserID()) {
                                 journalList.add(journal)
+
                                 // Fetch mood data for the journal
-                                fetchMoodForJournal(journal.journalID)
+                                fetchMoodForJournal(journalId)
                             }
                         }
-                        displayJournals(journalList)
+
                     } else {
                         Log.d("JournalData", "No data found for date: $date")
                     }
@@ -77,6 +80,7 @@ class HistoryJournal : Fragment() {
     }
 
     private fun fetchMoodForJournal(journalId: String?) {
+        Log.d("Journal Data", "${journalId}")
         if (journalId == null) return
 
         FirebaseDatabase.getInstance().reference.child("mood")
@@ -91,11 +95,11 @@ class HistoryJournal : Fragment() {
                     for (moodSnapshot in snapshot.children) {
                         val moodType = moodSnapshot.child("moodType").getValue(Int::class.java)?.toFloat()
                         if (moodType != null) {
-                            // Update journal with mood data
-                            Log.d("MoodData", "moodType ${moodType}")
+
                             updateJournalWithMood(journalId, moodType)
                         }
                     }
+                    displayJournals(journalList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -108,7 +112,7 @@ class HistoryJournal : Fragment() {
     private fun updateJournalWithMood(journalId: String, moodType: Float) {
         // Cari jurnal yang memiliki journalId yang sama dengan journalId
         val updatedJournal = journalList.find { it.journalID == journalId }
-        updatedJournal?.dataMood = moodType.toInt()  // Update moodType pada jurnal
+        updatedJournal?.dataMood = moodType.toInt() // Update moodType pada jurnal
 
         // Cari index item yang sesuai dengan journalId
         val index = journalList.indexOf(updatedJournal)
@@ -119,7 +123,6 @@ class HistoryJournal : Fragment() {
             recyclerView?.adapter?.notifyItemChanged(index)  // Update item yang sesuai
         }
     }
-
 
     private fun getCurrentUserID(): String? {
         val user = FirebaseAuth.getInstance().currentUser
